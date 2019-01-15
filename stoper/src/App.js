@@ -39,11 +39,11 @@ class Stopwatch extends Component {
         clearInterval(this.timer);
       } 
       else {
-        // const startTime = Date.now() - this.state.runningTime;
-        const startTime = new Date() - this.state.runningTime.toLocaleString();
+        const startTime = Date.now() - this.state.runningTime;
+        // const startTime = new Date() - this.state.runningTime.toLocaleString();
         this.timer = setInterval(() => {
-          // this.setState({ runningTime: Date.now() - startTime });
-          this.setState({ runningTime: new Date().toLocaleString() - startTime })
+          this.setState({ runningTime: Date.now() - startTime });
+          // this.setState({ runningTime: new Date().toLocaleString() - startTime })
         });
       }
       return { status: !state.status };
@@ -56,11 +56,12 @@ class Stopwatch extends Component {
   };
 
   render() {
+    // eslint-disable-next-line
       const { status, runningTime } = this.state;
+      // document.getElementById('stopwatch-wrapper').innerHTML = this.h + ":" + this.m + ":" + this.s;
       return (
         <div id="stopwatch-wrapper">
-          <p>{new Date().getSeconds()}</p>
-          <p>{runningTime}ms</p>
+          <p>{Math.round(runningTime/1000)}s</p>
           <Button className="btn btn-outline-danger" onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</Button>
           <Button className="btn btn-primary" onClick={this.handleReset}>Reset</Button>
         </div>
