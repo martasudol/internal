@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Button } from 'reactstrap';
-// import Moment from 'moment';
-// import moment = require('moment');
+// import moment from 'moment';
 
 class App extends Component {
   render() {
@@ -15,23 +14,18 @@ class App extends Component {
   }
 }
 
-class Stopwatch extends Component {
-  state = {
-    status: false,
-    runningTime: 0,
-  };
+class Stopwatch extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      runningTime: 0,
+      status: false,
+    }
+  }
 
   componentWillUnmount() {
     clearInterval(this.timer);
   }
-
-  // componentDidMount() {
-  //   setInterval( () => {
-  //     this.setState({
-  //       runningTime : this.state.runningTime.toLocaleString()
-  //     })
-  //   },1000)
-  // }
 
   handleClick = () => {
     this.setState(state => {
@@ -40,33 +34,36 @@ class Stopwatch extends Component {
       } 
       else {
         const startTime = Date.now() - this.state.runningTime;
-        // const startTime = new Date() - this.state.runningTime.toLocaleString();
         this.timer = setInterval(() => {
           this.setState({ runningTime: Date.now() - startTime });
-          // this.setState({ runningTime: new Date().toLocaleString() - startTime })
         });
       }
       return { status: !state.status };
     });
-  };
+  }
 
   handleReset = () => {
     clearInterval(this.timer);
     this.setState({ runningTime: 0, status: false });
-  };
+  }
+
+  getTime() {
+    this.setState({
+      runningTime: this.state.runningTime.format('HH:mm:ss')
+    });
+  }
 
   render() {
-    // eslint-disable-next-line
-      const { status, runningTime } = this.state;
-      // document.getElementById('stopwatch-wrapper').innerHTML = this.h + ":" + this.m + ":" + this.s;
-      return (
-        <div id="stopwatch-wrapper">
-          <p>{Math.round(runningTime/1000)}s</p>
-          <Button className="btn btn-outline-danger" onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</Button>
-          <Button className="btn btn-primary" onClick={this.handleReset}>Reset</Button>
-        </div>
-      );
-      }
+    // const { status, runningTime } = this.state;
+    return (
+      <div id="stopwatch-wrapper">
+        {/* <p>{Math.round(this.state.runningTime/1000)}s</p> */}
+        <p>{this.state.runningTime}</p>
+        <Button className="btn btn-outline-danger" onClick={this.handleClick}>{this.state.status ? 'Stop' : 'Start'}</Button>
+        <Button className="btn btn-primary" onClick={this.handleReset}>Reset</Button>
+      </div>
+    );
+  }
 }
 
 export default App;
