@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { Button } from 'reactstrap';
-// import moment from 'moment';
+import moment from 'moment';
 
 class App extends Component {
   render() {
@@ -35,7 +35,7 @@ class Stopwatch extends React.Component {
       else {
         const startTime = Date.now() - this.state.runningTime;
         this.timer = setInterval(() => {
-          this.setState({ runningTime: Date.now() - startTime });
+          this.setState({ runningTime: moment(Date.now() - startTime).format('HH:mm:ss') });
         });
       }
       return { status: !state.status };
@@ -47,17 +47,9 @@ class Stopwatch extends React.Component {
     this.setState({ runningTime: 0, status: false });
   }
 
-  getTime() {
-    this.setState({
-      runningTime: this.state.runningTime.format('HH:mm:ss')
-    });
-  }
-
   render() {
-    // const { status, runningTime } = this.state;
     return (
       <div id="stopwatch-wrapper">
-        {/* <p>{Math.round(this.state.runningTime/1000)}s</p> */}
         <p>{this.state.runningTime}</p>
         <Button className="btn btn-outline-danger" onClick={this.handleClick}>{this.state.status ? 'Stop' : 'Start'}</Button>
         <Button className="btn btn-primary" onClick={this.handleReset}>Reset</Button>
